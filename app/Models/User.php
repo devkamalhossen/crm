@@ -65,6 +65,21 @@ class User extends Authenticatable implements FilamentUser
         };
     }
 
+    // public function canAccessPanel(Panel $panel): bool
+    // {
+    //     return match ($panel->getId()) {
+    //         'auth'    => true,
+
+    //         'admin'   => $this->role === 'admin',
+
+    //         'account' => $this->role === 'account',
+
+    //         'client'  => $this->role === 'client',
+
+    //         default   => false,
+    //     };
+    // }
+
 
 
 

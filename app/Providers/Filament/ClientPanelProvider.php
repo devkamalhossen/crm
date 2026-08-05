@@ -24,7 +24,8 @@ class ClientPanelProvider extends PanelProvider
     {
         return $panel
             ->id('client')
-            ->path('client')->login()
+            ->path('client')
+            ->login(fn () => redirect()->route('login'))
             ->colors([
                 'primary' => Color::Amber,
             ])

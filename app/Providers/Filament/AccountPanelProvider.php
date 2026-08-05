@@ -24,7 +24,8 @@ class AccountPanelProvider extends PanelProvider
     {
         return $panel
             ->id('account')
-            ->path('account')->login()
+            ->path('account')
+            ->login(fn () => redirect()->route('login'))
             ->colors([
                 'primary' => Color::Amber,
             ])
