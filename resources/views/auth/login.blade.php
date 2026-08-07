@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="card">
-        <h1 style="font-size: 1.75rem; margin-bottom: 1rem; color: #0f172a;">Login</h1>
+        <h1 style="font-size: 1.75rem; margin-bottom: 1rem; color: #0f172a;text-align: center;">CRM</h1>
 
         @if ($errors->any())
             <div class="error">
@@ -32,12 +32,12 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <div style="margin-bottom: 1rem;">
+            <div style="margin-bottom: 1rem; margin-right: 30px;">
                 <label for="email">Email</label>
                 <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus>
             </div>
 
-            <div style="margin-bottom: 1rem;">
+            <div style="margin-bottom: 1rem; margin-right: 30px;">
                 <label for="password">Password</label>
                 <input id="password" name="password" type="password" required>
             </div>
@@ -50,7 +50,6 @@
             <button type="submit" class="button">Sign in</button>
         </form>
 
-        <p class="footer">Use your role-based email and password.</p>
     </div>
 </body>
 </html>
