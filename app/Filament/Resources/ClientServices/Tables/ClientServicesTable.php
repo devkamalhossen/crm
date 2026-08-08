@@ -3,10 +3,12 @@
 namespace App\Filament\Resources\ClientServices\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ClientServicesTable
@@ -82,6 +84,12 @@ class ClientServicesTable
                         'delivered' => 'Delivered',
                         default => '—',
                     })
+                    ->color(fn (?string $state): string => match ($state) {
+                        'in_progress' => 'warning',
+                        'completed' => 'info',
+                        'delivered' => 'success',
+                        default => 'gray',
+                    })
                     ->sortable(),
 
                 TextColumn::make('status')
@@ -91,11 +99,46 @@ class ClientServicesTable
                     ->sortable(),
             ])
             ->filters([
-                //
+                // service type wise filter
+                SelectFilter::make('service_type')
+                    ->label('Service Type')
+                    ->options([
+                        'seo' => 'SEO',
+                        'website' => 'Website Development',
+                        'digital_marketing' => 'Digital Marketing',
+                    ]),
+
+                // payment type wise filter
+                SelectFilter::make('payment_type')
+                    ->label('Payment Type')
+                    ->options([
+                        'monthly' => 'Monthly',
+                        'project_based' => 'Project Based',
+                        'yearly' => 'Yearly',
+                    ]),
+
+                // project status wise filter
+                SelectFilter::make('project_status')
+                    ->label('Project Status')
+                    ->options([
+                        'in_progress' => 'In Progress',
+                        'completed' => 'Completed',
+                        'delivered' => 'Delivered',
+                    ]),
+
+                // service status wise filter
+                SelectFilter::make('status')
+                    ->label('Service Status')
+                    ->options([
+                        'active' => 'Active',
+                        'expired' => 'Expired',
+                        'cancelled' => 'Cancelled',
+                    ]),
             ])
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

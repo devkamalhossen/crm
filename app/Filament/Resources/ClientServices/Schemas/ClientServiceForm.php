@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources\ClientServices\Schemas;
 
+use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Hash;
 
 class ClientServiceForm
 {
@@ -14,7 +16,7 @@ class ClientServiceForm
     {
         return $schema
             ->components([
-                 Select::make('user_id')
+                    Select::make('user_id')
                     ->label('Client')
                     ->relationship(
                         name: 'client',
@@ -24,9 +26,42 @@ class ClientServiceForm
                             ->where('status', 'active')
                             ->orderBy('name')
                     )
+                    ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->name} — {$record->email} — {$record->phone} — {$record->company_name}")
                     ->searchable(['name', 'email', 'phone', 'company_name'])
                     ->preload()
-                    ->required(),
+                    ->required()
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+
+                        TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->unique('users', 'email')
+                            ->maxLength(255),
+
+                        TextInput::make('phone')
+                            ->tel()
+                            ->maxLength(20),
+
+                        TextInput::make('company_name')
+                            ->label('Company Name')
+                            ->maxLength(255),
+
+                        TextInput::make('password')
+                            ->password()
+                            ->required()
+                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                            ->default('12345678'),
+                    ])
+                    ->createOptionUsing(function (array $data): int {
+                        $data['role'] = 'client';
+                        $data['status'] = 'active';
+
+                        $user = User::create($data);
+                        return $user->id;
+                    }),
 
                 Select::make('service_type')
                     ->label('Service Type')
@@ -66,8 +101,7 @@ class ClientServiceForm
                     ->integer()
                     ->minValue(1)
                     ->maxValue(120)
-                    ->visible(fn ($get) => $get('service_type') === 'seo')
-                    ->required(fn ($get) => $get('service_type') === 'seo'),
+                    ->nullable(),
 
                 DatePicker::make('start_date')
                     ->label('Start Date')
@@ -78,6 +112,18 @@ class ClientServiceForm
                     ->native(false)
                     ->afterOrEqual('start_date'),
 
+                // Select::make('project_status')
+                //     ->label('Project Status')
+                //     ->options([
+                //         'in_progress' => 'In Progress',
+                //         'completed' => 'Completed',
+                //         'delivered' => 'Delivered',
+                //     ])
+                //     ->visible(fn ($get) => in_array(
+                //         $get('service_type'),
+                //         ['website', 'digital_marketing']
+                //     )),
+
                 Select::make('project_status')
                     ->label('Project Status')
                     ->options([
@@ -85,10 +131,8 @@ class ClientServiceForm
                         'completed' => 'Completed',
                         'delivered' => 'Delivered',
                     ])
-                    ->visible(fn ($get) => in_array(
-                        $get('service_type'),
-                        ['website', 'digital_marketing']
-                    )),
+                    ->default('in_progress')
+                    ->nullable(),
 
                 Select::make('status')
                     ->label('Service Status')
@@ -104,6 +148,7 @@ class ClientServiceForm
                     ->label('Notes')
                     ->rows(4)
                     ->columnSpanFull(),
+            
             ]);
     }
 }
