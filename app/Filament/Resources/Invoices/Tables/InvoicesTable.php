@@ -2,73 +2,21 @@
 
 namespace App\Filament\Resources\Invoices\Tables;
 
+use App\Models\Invoice;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
 class InvoicesTable
 {
-    // public static function configure(Table $table): Table
-    // {
-    //     return $table
-    //         ->columns([
-    //             TextColumn::make('user_id')
-    //                 ->numeric()
-    //                 ->sortable(),
-    //             TextColumn::make('clientService.id')
-    //                 ->searchable(),
-    //             TextColumn::make('invoice_number')
-    //                 ->searchable(),
-    //             TextColumn::make('invoice_date')
-    //                 ->date()
-    //                 ->sortable(),
-    //             TextColumn::make('due_date')
-    //                 ->date()
-    //                 ->sortable(),
-    //             TextColumn::make('subtotal')
-    //                 ->numeric()
-    //                 ->sortable(),
-    //             TextColumn::make('discount')
-    //                 ->numeric()
-    //                 ->sortable(),
-    //             TextColumn::make('tax')
-    //                 ->numeric()
-    //                 ->sortable(),
-    //             TextColumn::make('total_amount')
-    //                 ->numeric()
-    //                 ->sortable(),
-    //             TextColumn::make('status')
-    //                 ->badge(),
-    //             TextColumn::make('created_at')
-    //                 ->dateTime()
-    //                 ->sortable()
-    //                 ->toggleable(isToggledHiddenByDefault: true),
-    //             TextColumn::make('updated_at')
-    //                 ->dateTime()
-    //                 ->sortable()
-    //                 ->toggleable(isToggledHiddenByDefault: true),
-    //         ])
-    //         ->filters([
-    //             //
-    //         ])
-    //         ->recordActions([
-    //             ViewAction::make(),
-    //             EditAction::make(),
-    //         ])
-    //         ->toolbarActions([
-    //             BulkActionGroup::make([
-    //                 DeleteBulkAction::make(),
-    //             ]),
-    //         ]);
-    // }
-
-
 
     public static function configure(Table $table): Table
     {
@@ -368,6 +316,28 @@ class InvoicesTable
             */
 
             ->recordActions([
+                Action::make('downloadPdf')
+                    ->label('PDF')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(function (Invoice $record) {
+
+                        $invoice = $record->load([
+                            'client',
+                            'clientService',
+                            'items',
+                            'payments',
+                        ]);
+
+                        return response()->streamDownload(
+                            function () use ($invoice) {
+                                echo Pdf::loadView('invoices.pdf', [
+                                    'invoice' => $invoice,
+                                ])->output();
+                            },
+                            $invoice->invoice_number . '.pdf'
+                        );
+                    }),
+                    
                 ViewAction::make(),
                 EditAction::make(),
             ])
