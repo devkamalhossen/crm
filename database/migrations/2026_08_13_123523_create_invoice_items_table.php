@@ -13,36 +13,13 @@ return new class extends Migration
     {
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->id();
-            
-            /*
-            |--------------------------------------------------------------------------
-            | Relationship
-            |--------------------------------------------------------------------------
-            */
-
-            $table->foreignId('invoice_id')
-                ->constrained('invoices')
-                ->cascadeOnDelete();
-
-            /*
-            |--------------------------------------------------------------------------
-            | Item Information
-            |--------------------------------------------------------------------------
-            */
-
+            $table->foreignId('invoice_id')->constrained('invoices')->cascadeOnDelete();
             $table->string('item_name');
-
             $table->text('description')->nullable();
-
             $table->decimal('quantity', 10, 2)->default(1);
-
             $table->decimal('unit_price', 12, 2)->default(0);
-
             $table->decimal('amount', 12, 2)->default(0);
-
             $table->timestamps();
-
-            $table->index('invoice_id');
         });
     }
 

@@ -16,7 +16,7 @@ class ClientServiceForm
     {
         return $schema
             ->components([
-                    Select::make('user_id')
+                Select::make('user_id')
                     ->label('Client')
                     ->relationship(
                         name: 'client',
@@ -61,7 +61,13 @@ class ClientServiceForm
 
                         $user = User::create($data);
                         return $user->id;
-                    }),
+                    })
+                    ->editOptionForm([
+                        TextInput::make('name')->required()->maxLength(255),
+                        TextInput::make('email')->email()->required()->maxLength(255),
+                        TextInput::make('phone')->tel()->maxLength(20),
+                        TextInput::make('company_name')->label('Company Name')->maxLength(255),
+                    ]),
 
                 Select::make('service_type')
                     ->label('Service Type')

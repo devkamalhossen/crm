@@ -13,74 +13,17 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            
-            /*
-            |--------------------------------------------------------------------------
-            | Relationships
-            |--------------------------------------------------------------------------
-            */
-
-            $table->foreignId('invoice_id')
-                ->constrained('invoices')
-                ->cascadeOnDelete();
-
-            $table->foreignId('user_id')
-                ->constrained('users')
-                ->restrictOnDelete();
-
-            /*
-            |--------------------------------------------------------------------------
-            | Payment Information
-            |--------------------------------------------------------------------------
-            */
-
+            $table->foreignId('invoice_id')->constrained('invoices')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
             $table->string('payment_reference')->nullable()->unique();
-
             $table->date('payment_date');
-
             $table->decimal('amount', 12, 2);
-
-            $table->enum('payment_method', [
-                'bank_transfer',
-                'bkash',
-                'cash',
-            ]);
-
-            $table->enum('status', [
-                'pending',
-                'completed',
-                'cancelled',
-            ])->default('completed');
-
-            /*
-            |--------------------------------------------------------------------------
-            | Transaction Information
-            |--------------------------------------------------------------------------
-            */
-
+            $table->enum('payment_method', ['bank_transfer','bkash','cash',]);
+            $table->enum('status', ['pending','completed','cancelled',])->default('completed');
             $table->string('transaction_id')->nullable();
-
             $table->text('notes')->nullable();
-
-            /*
-            |--------------------------------------------------------------------------
-            | Audit
-            |--------------------------------------------------------------------------
-            */
-
-            $table->foreignId('received_by')
-                ->nullable()
-                ->constrained('users')
-                ->nullOnDelete();
-
+            $table->foreignId('received_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
-
-            /*
-            |--------------------------------------------------------------------------
-            | Indexes
-            |--------------------------------------------------------------------------
-            */
-
             $table->index('invoice_id');
             $table->index('user_id');
             $table->index('payment_date');

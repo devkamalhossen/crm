@@ -18,7 +18,9 @@ class Invoice extends Model
         'invoice_date',
         'due_date',
         'subtotal',
-        'discount',
+        'discount_type',
+        'discount_value',
+        'discount_amount',
         'tax',
         'total_amount',
         'status',
@@ -30,9 +32,9 @@ class Invoice extends Model
         return [
             'invoice_date' => 'date',
             'due_date' => 'date',
-
             'subtotal' => 'decimal:2',
-            'discount' => 'decimal:2',
+           'discount_value' => 'decimal:2',
+            'discount_amount' => 'decimal:2',
             'tax' => 'decimal:2',
             'total_amount' => 'decimal:2',
         ];
