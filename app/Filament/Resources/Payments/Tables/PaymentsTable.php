@@ -146,10 +146,10 @@ class PaymentsTable
                 |--------------------------------------------------------------------------
                 */
 
-                TextColumn::make('receivedBy.name')
-                    ->label('Received By')
-                    ->searchable()
-                    ->sortable(),
+                // TextColumn::make('receivedBy.name')
+                //     ->label('Received By')
+                //     ->searchable()
+                //     ->sortable(),
 
                 /*
                 |--------------------------------------------------------------------------
