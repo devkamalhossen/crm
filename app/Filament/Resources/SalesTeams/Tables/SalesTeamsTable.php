@@ -40,6 +40,16 @@ class SalesTeamsTable
                     ->date()
                     ->sortable(),
 
+                TextColumn::make('clientServices.service_type')
+                    ->label('Client Services')
+                    ->badge()
+                    ->formatStateUsing(
+                        fn ($state) => ucwords(
+                            str_replace('_', ' ', $state)
+                        )
+                    )
+                    ->separator(','),
+
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -56,6 +66,7 @@ class SalesTeamsTable
                     ]),
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

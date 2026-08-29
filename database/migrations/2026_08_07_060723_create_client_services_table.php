@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('sales_team_id')->nullable()->constrained('sales_teams')->nullOnDelete();
             $table->enum('service_type', ['seo','website','digital_marketing']);
             $table->enum('payment_type', ['monthly','project_based','yearly']);
             $table->decimal('total_amount', 12, 2);
