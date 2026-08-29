@@ -13,6 +13,7 @@ class ClientService extends Model
 
     protected $fillable = [
         'user_id',
+        'sales_team_id',
         'service_type',
         'payment_type',
         'total_amount',
@@ -45,5 +46,14 @@ class ClientService extends Model
     {
         return $this->hasMany(Invoice::class, 'client_service_id');
     }
-    
+
+    public function salesperson()
+    {
+        return $this->belongsTo(SalesTeam::class, 'sales_team_id');
+    }
+
+    public function salesTeams()
+    {
+        return $this->belongsToMany(SalesTeam::class, 'sales_team_client_service');
+    }
 }

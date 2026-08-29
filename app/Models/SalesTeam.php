@@ -14,5 +14,12 @@ class SalesTeam extends Model
         'email',
         'joining_date',
         'status',
+        'sales_team_id',
+        'client_service_id',
     ];
+
+    public function clientServices()
+    {
+        return $this->belongsToMany(ClientService::class, 'sales_team_client_service');
+    }
 }
