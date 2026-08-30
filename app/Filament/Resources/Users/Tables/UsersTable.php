@@ -51,7 +51,7 @@ class UsersTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-            ])
+            ])->recordActionsColumnLabel('Action')
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

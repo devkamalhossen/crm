@@ -200,7 +200,7 @@ class PaymentsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-            ])
+            ])->recordActionsColumnLabel('Action')
 
             /*
             |--------------------------------------------------------------------------

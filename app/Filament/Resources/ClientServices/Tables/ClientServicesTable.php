@@ -139,7 +139,7 @@ class ClientServicesTable
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
-            ])
+            ])->recordActionsColumnLabel('Action')
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

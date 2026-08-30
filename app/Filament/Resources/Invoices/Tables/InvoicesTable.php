@@ -340,7 +340,7 @@ class InvoicesTable
                     
                 ViewAction::make(),
                 EditAction::make(),
-            ])
+            ])->recordActionsColumnLabel('Action')
 
             /*
             |--------------------------------------------------------------------------
