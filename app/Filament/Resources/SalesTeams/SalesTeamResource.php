@@ -11,6 +11,7 @@ use App\Filament\Resources\SalesTeams\Schemas\SalesTeamInfolist;
 use App\Filament\Resources\SalesTeams\Tables\SalesTeamsTable;
 use App\Models\SalesTeam;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -19,6 +20,9 @@ use Filament\Tables\Table;
 class SalesTeamResource extends Resource
 {
     protected static ?string $model = SalesTeam::class;
+
+    protected static UnitEnum|string|null $navigationGroup = 'Billing & Sales';
+    protected static ?int $navigationSort = 2;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
