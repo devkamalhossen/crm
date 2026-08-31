@@ -22,4 +22,9 @@ class SalesTeam extends Model
     {
         return $this->belongsToMany(ClientService::class, 'sales_team_client_service');
     }
+
+    public function commissions()
+    {
+        return $this->hasMany(Commission::class);
+    }
 }

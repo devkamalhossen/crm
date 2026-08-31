@@ -56,4 +56,9 @@ class ClientService extends Model
     {
         return $this->hasMany(Project::class);
     }
+
+    public function commissions()
+    {
+        return $this->hasMany(Commission::class);
+    }
 }
