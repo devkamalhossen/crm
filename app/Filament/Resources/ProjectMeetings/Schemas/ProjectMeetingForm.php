@@ -133,15 +133,25 @@ class ProjectMeetingForm
                     ])
                     ->columnSpanFull(),
 
-                Section::make('Reminder')
+               Section::make('Reminder')
                     ->schema([
-                        DateTimePicker::make('reminder_sent_at')
-                            ->label('Reminder Sent At')
-                            ->native(false)
-                            ->disabled()
-                            ->helperText('This field will be updated automatically when a reminder is sent.'),
+                        Grid::make(2)
+                            ->schema([
+                                DateTimePicker::make('reminder_at')
+                                    ->label('Reminder At')
+                                    ->native(false)
+                                    ->helperText('Set when the meeting reminder should be sent.'),
+
+                                DateTimePicker::make('reminder_sent_at')
+                                    ->label('Reminder Sent At')
+                                    ->native(false)
+                                    ->disabled()
+                                    ->dehydrated(false)
+                                    ->helperText('Automatically updated when the reminder is sent.'),
+                            ]),
                     ])
                     ->columnSpanFull(),
+                    
             ]);
     }
 }

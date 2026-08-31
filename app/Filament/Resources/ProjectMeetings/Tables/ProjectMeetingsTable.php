@@ -84,16 +84,59 @@ class ProjectMeetingsTable
                     ->date('d M Y')
                     ->sortable(),
 
+                TextColumn::make('reminder_at')
+                    ->label('Reminder At')
+                    ->dateTime('d M Y, h:i A')
+                    ->sortable()
+                    ->placeholder('Not Scheduled'),
+
+                TextColumn::make('reminder_sent_at')
+                    ->label('Reminder Sent')
+                    ->dateTime('d M Y, h:i A')
+                    ->sortable()
+                    ->placeholder('Not Sent'),
+
                 // Status
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'scheduled' => 'warning',
-                        'completed' => 'success',
-                        'cancelled' => 'danger',
-                        'missed' => 'danger',
-                        default => 'gray',
+
+                    ->formatStateUsing(function ($state, $record) {
+                        if ($state === 'scheduled') {
+                            if ($record->meeting_date->isToday()) {
+                                return 'Today';
+                            }
+
+                            if ($record->meeting_date->isPast()) {
+                                return 'Missed';
+                            }
+
+                            return 'Upcoming';
+                        }
+
+                        return ucfirst($state);
+                    })
+
+                    ->color(function ($state, $record): string {
+                        if ($state === 'scheduled') {
+
+                            if ($record->meeting_date->isToday()) {
+                                return 'warning';
+                            }
+
+                            if ($record->meeting_date->isPast()) {
+                                return 'danger';
+                            }
+
+                            return 'info';
+                        }
+
+                        return match ($state) {
+                            'completed' => 'success',
+                            'cancelled' => 'danger',
+                            'missed' => 'danger',
+                            default => 'gray',
+                        };
                     }),
 
                 // Completed At
@@ -102,13 +145,6 @@ class ProjectMeetingsTable
                     ->dateTime('d M Y, h:i A')
                     ->sortable()
                     ->placeholder('-'),
-
-                // Reminder
-                TextColumn::make('reminder_sent_at')
-                    ->label('Reminder')
-                    ->dateTime('d M Y, h:i A')
-                    ->sortable()
-                    ->placeholder('Not Sent'),
 
                 // Created At
                 TextColumn::make('created_at')

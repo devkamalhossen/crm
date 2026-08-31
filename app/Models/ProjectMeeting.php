@@ -19,6 +19,7 @@ class ProjectMeeting extends Model
         'agenda',
         'notes',
         'completed_at',
+        'reminder_at',
         'reminder_sent_at',
     ];
 
@@ -27,6 +28,7 @@ class ProjectMeeting extends Model
         return [
             'meeting_date' => 'date',
             'completed_at' => 'datetime',
+            'reminder_at' => 'datetime',
             'reminder_sent_at' => 'datetime',
         ];
     }
