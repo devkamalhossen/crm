@@ -15,12 +15,12 @@ class UserForm
             ->components([
                 Select::make('role')
                     ->options([
-            'admin' => 'Admin',
-            'account' => 'Account',
-            'client' => 'Client',
-            'project_manager' => 'Project manager',
-            'sales' => 'Sales',
-        ])
+                        'admin' => 'Admin',
+                        'account' => 'Account',
+                        'client' => 'Client',
+                        'project_manager' => 'Project manager',
+                        'sales' => 'Sales',
+                    ])
                     ->default('client')
                     ->required(),
                 TextInput::make('name')

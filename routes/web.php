@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     if (Auth::check()) {
         return match (Auth::user()->role) {
-            'admin' => redirect('/admin'),
-            'account' => redirect('/account'),
-            'client' => redirect('/client'),
-            default => redirect('/'),
+            'admin'           => redirect('/admin'),
+            'account'         => redirect('/account'),
+            'client'          => redirect('/client'),
+            'sales'           => redirect('/sales'),
+            'project_manager' => redirect('/project_manager'),
+            default           => redirect('/'),
         };
     }
 
@@ -24,3 +26,5 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+
+// Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');

@@ -6,4 +6,6 @@ return [
     App\Providers\Filament\AdminPanelProvider::class,
     App\Providers\Filament\AuthPanelProvider::class,
     App\Providers\Filament\ClientPanelProvider::class,
+    App\Providers\Filament\ProjectManagerPanelProvider::class,
+    App\Providers\Filament\SalesPanelProvider::class,
 ];

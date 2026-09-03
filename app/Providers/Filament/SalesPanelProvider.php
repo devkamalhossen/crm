@@ -2,10 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Resources\Expenses\ExpenseResource;
-use App\Filament\Resources\Invoices\InvoiceResource;
-use App\Filament\Resources\Payments\PaymentResource;
-use App\Filament\Widgets\FinancialStats;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -22,31 +18,25 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AccountPanelProvider extends PanelProvider
+class SalesPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('account')
-            ->path('account')
+            ->id('sales')
+            ->path('sales')
             ->login(fn () => redirect()->route('login'))
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->resources([
-                InvoiceResource::class,
-                PaymentResource::class,
-                ExpenseResource::class,
-            ])
-            ->discoverResources(in: app_path('Filament/Account/Resources'), for: 'App\Filament\Account\Resources')
-            ->discoverPages(in: app_path('Filament/Account/Pages'), for: 'App\Filament\Account\Pages')
+            ->discoverResources(in: app_path('Filament/Sales/Resources'), for: 'App\Filament\Sales\Resources')
+            ->discoverPages(in: app_path('Filament/Sales/Pages'), for: 'App\Filament\Sales\Pages')
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Account/Widgets'), for: 'App\Filament\Account\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Sales/Widgets'), for: 'App\Filament\Sales\Widgets')
             ->widgets([
                 AccountWidget::class,
-                FinancialStats::class,
             ])
             ->middleware([
                 EncryptCookies::class,

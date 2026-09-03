@@ -67,6 +67,8 @@ class LoginController extends Controller
             'admin' => '/admin',
             'account' => '/account',
             'client' => '/client',
+            'sales' => '/sales',
+            'project_manager' => '/project_manager',
             default => '/',
         };
     }
