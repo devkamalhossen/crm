@@ -10,8 +10,10 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-// use Filament\Widgets\FilamentInfoWidget;
+use App\Filament\ProjectManager\Widgets\MeetingsOverview;
+use App\Filament\ProjectManager\Widgets\PendingActions;
+use App\Filament\ProjectManager\Widgets\ProjectTimeline;
+use App\Filament\ProjectManager\Widgets\ReportingOverview;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -37,8 +39,10 @@ class ProjectManagerPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/ProjectManager/Widgets'), for: 'App\Filament\ProjectManager\Widgets')
             ->widgets([
-                AccountWidget::class,
-                // FilamentInfoWidget::class,
+                ProjectTimeline::class,
+                ReportingOverview::class,
+                MeetingsOverview::class,
+                PendingActions::class,
             ])
             ->middleware([
                 EncryptCookies::class,
