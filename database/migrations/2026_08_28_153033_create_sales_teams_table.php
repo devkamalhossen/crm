@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales_teams', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->unique()->constrained('users')->nullOnDelete();
             $table->string('employee_id')->unique();
             $table->string('name');
             $table->string('designation');
@@ -37,6 +38,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('sales_teams', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
+        });
         Schema::dropIfExists('sales_team_client_service');
         Schema::dropIfExists('sales_teams');
     }

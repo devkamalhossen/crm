@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SalesTeam extends Model
 {
     protected $fillable = [
+        'user_id',
         'employee_id',
         'name',
         'designation',
@@ -18,6 +19,12 @@ class SalesTeam extends Model
         'client_service_id',
     ];
 
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function clientServices()
     {
         return $this->belongsToMany(ClientService::class, 'sales_team_client_service');
@@ -27,4 +34,6 @@ class SalesTeam extends Model
     {
         return $this->hasMany(Commission::class);
     }
+
+
 }

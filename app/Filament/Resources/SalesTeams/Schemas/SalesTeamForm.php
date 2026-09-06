@@ -8,17 +8,21 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Validation\Rule;
+
 
 class SalesTeamForm
 {
     public static function configure(Schema $schema): Schema
     {
-       return $schema
+        return $schema
             ->components([
+
                 Section::make('Sales Person Information')
                     ->schema([
                         Grid::make(2)
                             ->schema([
+
                                 TextInput::make('employee_id')
                                     ->label('Employee ID')
                                     ->required()
@@ -41,48 +45,97 @@ class SalesTeamForm
                                     ->maxLength(20),
 
                                 TextInput::make('email')
-                                    ->label('Email')
+                                    ->label('Login Email')
                                     ->email()
-                                    ->unique(ignoreRecord: true)
+                                    ->required()
+                                    ->unique(table: 'sales_teams', column: 'email', ignoreRecord: true)
+                                    ->rules([
+                                        Rule::unique('users', 'email'),
+                                    ])
                                     ->maxLength(255),
 
                                 DatePicker::make('joining_date')
                                     ->label('Joining Date'),
 
                             ]),
-
-                            Section::make('Assign Client Services')
-                            ->schema([
-                                Grid::make(2)
-                                    ->schema([
-                                        Select::make('status')
-                                            ->label('Status')
-                                            ->options([
-                                                'active' => 'Active',
-                                                'inactive' => 'Inactive',
-                                            ])
-                                            ->default('active')
-                                            ->required(),
-                                        
-                                        Select::make('clientServices')
-                                            ->label('Client Services')
-                                            ->relationship(
-                                                name: 'clientServices',
-                                                titleAttribute: 'id',
-                                            )
-                                            ->multiple()
-                                            ->searchable()
-                                            ->preload()
-                                            ->getOptionLabelFromRecordUsing(function ($record) {
-                                                $clientName = $record->client?->company_name ?? $record->client?->name ?? 'Unknown Client';
-                                                return $clientName . ' - ' . ucwords(str_replace('_', ' ', $record->service_type));
-                                            })
-                                            ->helperText('Select the client services assigned to this salesperson.'),
-                                    ]),
-                            ])
-                            ->columnSpanFull(),
                     ])
                     ->columnSpanFull(),
+
+                Section::make('Login Account')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+
+                                Select::make('role')
+                                    ->label('Role')
+                                    ->options([
+                                        'sales' => 'Sales',
+                                    ])
+                                    ->default('sales')
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->required(),
+
+                                TextInput::make('password')
+                                    ->label('Password')
+                                    ->password()
+                                    ->revealable()
+                                    ->required(fn (string $operation): bool => $operation === 'create')
+                                    ->minLength(8)
+                                    ->dehydrated(fn ($state) => filled($state))
+                                    ->helperText('This password will be used by the salesperson to log in.'),
+
+                            ]),
+                    ])
+                    ->columnSpanFull(),
+
+                Section::make('Assign Client Services')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+
+                                Select::make('status')
+                                    ->label('Status')
+                                    ->options([
+                                        'active' => 'Active',
+                                        'inactive' => 'Inactive',
+                                    ])
+                                    ->default('active')
+                                    ->required(),
+
+                                Select::make('clientServices')
+                                    ->label('Client Services')
+                                    ->relationship(
+                                        name: 'clientServices',
+                                        titleAttribute: 'id',
+                                    )
+                                    ->multiple()
+                                    ->searchable()
+                                    ->preload()
+                                    ->getOptionLabelFromRecordUsing(function ($record) {
+                                        $clientName =
+                                            $record->client?->company_name
+                                            ?? $record->client?->name
+                                            ?? 'Unknown Client';
+
+                                        return $clientName
+                                            . ' - '
+                                            . ucwords(
+                                                str_replace(
+                                                    '_',
+                                                    ' ',
+                                                    $record->service_type
+                                                )
+                                            );
+                                    })
+                                    ->helperText(
+                                        'Select the client services assigned to this salesperson.'
+                                    ),
+
+                            ]),
+                    ])
+                    ->columnSpanFull(),
+
             ]);
     }
 }
