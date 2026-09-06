@@ -15,8 +15,6 @@ class SalesTeam extends Model
         'email',
         'joining_date',
         'status',
-        'sales_team_id',
-        'client_service_id',
     ];
 
     

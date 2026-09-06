@@ -13,7 +13,6 @@ class ClientService extends Model
 
     protected $fillable = [
         'user_id',
-        'sales_team_id',
         'service_type',
         'payment_type',
         'total_amount',

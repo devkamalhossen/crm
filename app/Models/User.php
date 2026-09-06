@@ -89,5 +89,11 @@ class User extends Authenticatable implements FilamentUser
     }
 
 
+    public function salesTeam()
+    {
+        return $this->hasOne(SalesTeam::class);
+    }
+
+
 
 }

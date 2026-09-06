@@ -10,7 +10,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
+use App\Filament\Sales\Widgets\SalesOverview;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -36,7 +36,7 @@ class SalesPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Sales/Widgets'), for: 'App\Filament\Sales\Widgets')
             ->widgets([
-                AccountWidget::class,
+                SalesOverview::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Account\Resources\Commissions\CommissionResource;
 use App\Filament\Resources\Expenses\ExpenseResource;
 use App\Filament\Resources\Invoices\InvoiceResource;
 use App\Filament\Resources\Payments\PaymentResource;
@@ -37,6 +38,7 @@ class AccountPanelProvider extends PanelProvider
                 InvoiceResource::class,
                 PaymentResource::class,
                 ExpenseResource::class,
+                CommissionResource::class,
             ])
             ->discoverResources(in: app_path('Filament/Account/Resources'), for: 'App\Filament\Account\Resources')
             ->discoverPages(in: app_path('Filament/Account/Pages'), for: 'App\Filament\Account\Pages')
