@@ -94,6 +94,15 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasOne(SalesTeam::class);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | SMS Logs
+    |--------------------------------------------------------------------------
+    */
 
+    public function smsLogs(): HasMany
+    {
+        return $this->hasMany(SmsLog::class, 'user_id');
+    }
 
 }

@@ -20,7 +20,7 @@ class ClientServiceResource extends Resource
 {
     protected static ?string $model = ClientService::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleLeftRight;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedWrenchScrewdriver;
 
     protected static ?string $recordTitleAttribute = 'name';
 

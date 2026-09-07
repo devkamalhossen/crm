@@ -140,4 +140,15 @@ class Invoice extends Model
 
         return 'unpaid';
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SMS Logs
+    |--------------------------------------------------------------------------
+    */
+
+    public function smsLogs(): HasMany
+    {
+        return $this->hasMany(SmsLog::class);
+    }
 }
