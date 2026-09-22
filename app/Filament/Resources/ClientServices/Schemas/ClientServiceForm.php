@@ -33,13 +33,17 @@ class ClientServiceForm
                     ->createOptionForm([
                         TextInput::make('name')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->regex('/^[\pL\s\-\.]+$/u')
+                            ->validationAttribute('Name'),
 
                         TextInput::make('email')
                             ->email()
                             ->required()
                             ->unique('users', 'email')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->regex('/^[\w\._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/')
+                            ->validationAttribute('Email Address'),
 
                         TextInput::make('phone')
                             ->tel()
@@ -63,8 +67,12 @@ class ClientServiceForm
                         return $user->id;
                     })
                     ->editOptionForm([
-                        TextInput::make('name')->required()->maxLength(255),
-                        TextInput::make('email')->email()->required()->maxLength(255),
+                        TextInput::make('name')->required()->maxLength(255)
+                            ->regex('/^[\pL\s\-\.]+$/u')
+                            ->validationAttribute('Name'),
+                        TextInput::make('email')->email()->required()->maxLength(255)
+                            ->regex('/^[\w\._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/')
+                            ->validationAttribute('Email Address'),
                         TextInput::make('phone')->tel()->maxLength(20),
                         TextInput::make('company_name')->label('Company Name')->maxLength(255),
                     ]),

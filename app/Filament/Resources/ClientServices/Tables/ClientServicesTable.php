@@ -20,12 +20,12 @@ class ClientServicesTable
                   TextColumn::make('client.name')
                     ->label('Client')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()->limit(30),
 
                 TextColumn::make('client.company_name')
                     ->label('Company')
                     ->searchable()
-                    ->toggleable(),
+                    ->toggleable()->limit(30),
 
                 TextColumn::make('service_type')
                     ->label('Service')

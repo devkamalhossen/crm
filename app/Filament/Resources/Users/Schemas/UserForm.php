@@ -22,13 +22,25 @@ class UserForm
                         'sales' => 'Sales',
                     ])
                     ->default('client')
-                    ->required(),
+                    ->required()
+                    ->disabled(fn () => auth()->user()?->role !== 'admin')
+                    ->dehydrated(true),
+
                 TextInput::make('name')
-                    ->required(),
-                TextInput::make('email')
+                    ->required()
+                    ->maxLength(255)
+                    ->regex('/^[\pL\s\-\.]+$/u')
+                    ->validationAttribute('Name'),
+
+               TextInput::make('email')
                     ->label('Email address')
                     ->email()
-                    ->required(),
+                    ->required()
+                    ->unique(table: 'users', ignoreRecord: true)
+                    ->maxLength(255)
+                    ->regex('/^[\w\._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/')
+                    ->validationAttribute('Email Address'),
+
                 TextInput::make('phone')
                     ->tel()
                     ->default(null),
