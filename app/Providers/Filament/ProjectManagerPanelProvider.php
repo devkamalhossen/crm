@@ -2,6 +2,11 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\ProjectManager\Widgets\AssignedProjectsTable;
+use App\Filament\ProjectManager\Widgets\MeetingsOverview;
+use App\Filament\ProjectManager\Widgets\PendingActions;
+use App\Filament\ProjectManager\Widgets\ProjectTimeline;
+use App\Filament\ProjectManager\Widgets\ReportingOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -10,10 +15,6 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use App\Filament\ProjectManager\Widgets\MeetingsOverview;
-use App\Filament\ProjectManager\Widgets\PendingActions;
-use App\Filament\ProjectManager\Widgets\ProjectTimeline;
-use App\Filament\ProjectManager\Widgets\ReportingOverview;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -39,6 +40,7 @@ class ProjectManagerPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/ProjectManager/Widgets'), for: 'App\Filament\ProjectManager\Widgets')
             ->widgets([
+                AssignedProjectsTable::class,
                 ProjectTimeline::class,
                 ReportingOverview::class,
                 MeetingsOverview::class,

@@ -26,7 +26,22 @@ class PaymentResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;
 
-    protected static ?string $recordTitleAttribute = 'payment_number';
+    // protected static ?string $recordTitleAttribute = 'payment_number';
+
+    // start of global search area from hare 
+    protected static ?string $recordTitleAttribute = 'payment_reference';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'payment_reference',
+            'transaction_id',
+            'client.name',
+            'client.email',
+            'client.company_name',
+        ];
+    }
+    // end of global search area from hare 
 
     public static function form(Schema $schema): Schema
     {

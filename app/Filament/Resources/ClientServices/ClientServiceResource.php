@@ -24,6 +24,19 @@ class ClientServiceResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    // start of global search area from hare 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'client.name',
+            'client.email',
+            'client.phone',
+            'client.company_name',
+            'service_type',
+        ];
+    }
+    // end of global search area from hare 
+
     public static function form(Schema $schema): Schema
     {
         return ClientServiceForm::configure($schema);
