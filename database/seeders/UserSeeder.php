@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
         User::create([
             'role' => 'project_manager',
             'name' => 'Project Manager',
-            'email' => 'pm@gmail.com',
+            'email' => 'project@gmail.com',
             'phone' => '01710000003',
             'company_name' => 'Intellec IT',
             'password' => '12345678',
@@ -56,7 +56,7 @@ class UserSeeder extends Seeder
         User::create([
             'role' => 'client',
             'name' => 'Demo Client',
-            'email' => 'client@example.com',
+            'email' => 'client@gmail.com',
             'phone' => '01710000005',
             'company_name' => 'Demo Company',
             'password' => '12345678',
