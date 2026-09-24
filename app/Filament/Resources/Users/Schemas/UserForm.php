@@ -26,29 +26,57 @@ class UserForm
                     ->disabled(fn () => auth()->user()?->role !== 'admin')
                     ->dehydrated(true),
 
-                TextInput::make('name')
+               TextInput::make('name')
                     ->required()
+                    ->minLength(2)
                     ->maxLength(255)
-                    ->regex('/^[\pL\s\-\.]+$/u')
+                    ->trim()
+                    ->regex('/^(?=.*[\pL])[\pL]+(?:[\pL\s.-]*[\pL])?$/u')
+                    ->validationMessages([
+                        'required' => 'Name is required.',
+                        'minLength' => 'Name must be at least 2 characters.',
+                        'regex' => 'Please enter a valid name. Name cannot contain only symbols.',
+                    ])
                     ->validationAttribute('Name'),
 
                TextInput::make('email')
                     ->label('Email address')
-                    ->email()
                     ->required()
+                    ->email()
                     ->unique(table: 'users', ignoreRecord: true)
                     ->maxLength(255)
-                    ->regex('/^[\w\._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/')
+                    ->trim()
+                    ->regex('/^[A-Za-z0-9]+(?:[._%+-]*[A-Za-z0-9]+)*@gmail\.com$/')
+                    ->validationMessages([
+                        'required' => 'Email address is required.',
+                        'email' => 'Please enter a valid Gmail address.',
+                        'regex' => 'Please enter a valid Gmail address ending with @gmail.com.',
+                        'unique' => 'This email address is already registered.',
+                    ])
                     ->validationAttribute('Email Address'),
 
                 TextInput::make('phone')
                     ->tel()
                     ->default(null),
+
                 TextInput::make('company_name')
-                    ->default(null),
+                    ->default(null)
+                    ->trim()
+                    ->minLength(2)
+                    ->maxLength(255)
+                    ->regex('/^(?=.*[\pL\pN])[\pL\pN\s&.,()\'-]+$/u')
+                    ->validationMessages([
+                        'minLength' => 'Company name must be at least 2 characters.',
+                        'regex' => 'Please enter a valid company name.',
+                    ])
+                    ->validationAttribute('Company Name'),
+
                 TextInput::make('password')
                     ->password()
-                    ->required(),
+                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->disabledOn('edit')
+                    ->dehydrated(fn (string $operation): bool => $operation === 'create'),
+
                 Select::make('status')
                     ->options(['active' => 'Active', 'inactive' => 'Inactive', 'pending' => 'Pending'])
                     ->default('active')

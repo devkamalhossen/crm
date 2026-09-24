@@ -15,6 +15,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class ClientServiceResource extends Resource
 {
@@ -35,6 +37,21 @@ class ClientServiceResource extends Resource
             'service_type',
         ];
     }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Client'       => $record->client?->name,
+            'Phone'        => $record->client?->phone,
+            'Service Type' => $record->service_type,
+        ];
+    }
+
+    public static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()->with(['client']);
+    }
+    
     // end of global search area from hare 
 
     public static function form(Schema $schema): Schema
