@@ -24,6 +24,7 @@ class User extends Authenticatable implements FilamentUser
     protected $fillable = [
         'role',
         'name',
+        'username',
         'email',
         'phone',
         'company_name',
@@ -54,6 +55,11 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'email';
     }
 
     public function canAccessPanel(Panel $panel): bool
